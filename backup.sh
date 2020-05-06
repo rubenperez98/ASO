@@ -3,7 +3,7 @@
 BACKUP_DIR=/var/backups_of_users
 BACKUP_LIST=ruben
 BACKUP_MAXCOUNT=1
-BACKUP_LOG=YES
+BACKUP_LOG=NO
 
 # GENERACIÓN DE LOGS ------------------------------------------------------------
 
@@ -19,8 +19,8 @@ fi
 
 if [ ! -e $BACKUP_DIR ]; then
 
-	echo "Creating backups directory in $BACKUP_DIR"
 	mkdir -p -m 775 $BACKUP_DIR
+	echo "Creating backups directory in $BACKUP_DIR"
 
 fi
 
@@ -69,7 +69,7 @@ for line in $BACKUP_LIST_DIRS; do
 	
 	user_name=`echo $line | cut -f1 -d:`
 	user_home=`echo $line | cut -f2 -d:`
-	user_home=/home/ruben/FIC/ASO/HOLA
+	#user_home=/home/ruben/FIC/ASO/HOLA
 
 	date=`date "+%Y-%m-%d-%k-%M"`
 	tar_name=$user_name-$date.tar.gz
@@ -77,6 +77,12 @@ for line in $BACKUP_LIST_DIRS; do
 
 	if [ -e "$BACKUP_DIR/$tar_name" ]; then 
 		echo "Backup for $user_name of $user_home created in $BACKUP_DIR/$tar_name"
+		backup_sizes=`ls -l $BACKUP_DIR | grep $user_name | cut -f5 -d ' '`
+		total_size=0
+		for i in $backup_sizes; do
+			total_size=`expr $total_size + $i`
+		done
+		echo "Your last backup was made on $date. The size of all your backups is: $total_size" | mail -s "Backup of $date" $user_name
 	else
 		echo "Could not make backup for $user_name of $user_home created in $BACKUP_DIR/$tar_name"
 	fi

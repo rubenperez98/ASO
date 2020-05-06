@@ -77,7 +77,7 @@ for line in $BACKUP_LIST_DIRS; do
 
 	if [ -e "$BACKUP_DIR/$tar_name" ]; then 
 		echo "Backup for $user_name of $user_home created in $BACKUP_DIR/$tar_name"
-		backup_sizes=`ls -l $BACKUP_DIR | grep $user_name | cut -f5 -d ' '`
+		backup_sizes=`ls -l $BACKUP_DIR | grep $user_name | tr -s " " | cut -f5 -d ' '`
 		total_size=0
 		for i in $backup_sizes; do
 			total_size=`expr $total_size + $i`

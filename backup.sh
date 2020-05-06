@@ -1,8 +1,8 @@
 #!/bin/sh
 
 BACKUP_DIR=/var/backups_of_users
-BACKUP_LIST=ruben
-BACKUP_MAXCOUNT=1
+BACKUP_LIST=ruben,user01,user05,user10
+BACKUP_MAXCOUNT=4
 BACKUP_LOG=NO
 
 # GENERACIÓN DE LOGS ------------------------------------------------------------
